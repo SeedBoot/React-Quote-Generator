@@ -14,10 +14,10 @@ const Quote = (props) => {
   } else {
     return (
       <QuoteContainer>
-        <div id="quote">
+        <div style={props.style} id="quote">
           <h2>{props.randQuote.quote}</h2>
         </div>
-        <div id="author">
+        <div style={props.style} id="author">
           <h3>Author - {props.randQuote.author}</h3>
         </div>
       </QuoteContainer>

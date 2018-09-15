@@ -5,16 +5,23 @@ import {getRandomNum} from './utils/helpers';
 import Quote from './Components/Quote';
 import Button from './Components/Button';
 import createColorArr from './utils/colors';
+import {defineFontColor} from './utils/helpers';
 
 class App extends Component {
 
   //APP STATE
   state = {
     quotesArr: [],
-    currentColor: null,
+    currentColor: '#600707',
+    fontColor: '#fafafa',
     currentQuote: null,
     buttonDisabled: true
   }
+
+  //ARRAY OF COLORS
+  colors = {
+    colorsArr: createColorArr()
+  };
 
   //SET A RANDOM QUOTE AS CURRENT QUOTE
   setRandomQuote = () => {
@@ -22,12 +29,17 @@ class App extends Component {
     this.setState({currentQuote: randQuote})
   }
 
-  //SET A RANDOM BG COLOR AS CURRENT COLOR
-  setRandomColor = () => {
-    let colors = createColorArr();
-    let randColor = colors[Math.floor(Math.random() * 143)];
-    console.log(randColor);
-    this.setState({currentColor: randColor})
+  //SET A RANDOM BG COLOR AS CURRENT COLOR AND FONT COLOR BASED ON CURRENT COLOR
+  setRandomColors = () => {
+    let randColor = this.colors.colorsArr[Math.floor(Math.random() * 143)];
+    this.setState({currentColor: randColor}, () => {
+      let fontColor = defineFontColor(this.state.currentColor);
+      if (fontColor === 'light') {
+        this.setState({fontColor: '#000'})
+      } else if (fontColor === 'dark') {
+        this.setState({fontColor: '#fafafa'})
+      }
+    });
   }
 
   //FETCH ALL QUOTES
@@ -43,22 +55,13 @@ class App extends Component {
       })
   }
 
-  //SET BACKGROUND COLOR WHEN BUTTON IS CLICKED
-  setBgColor = () => {
-    if (!this.state.currentColor) {
-      return {backgroundColor: '#600707'};
-    } else {
-      return {backgroundColor: this.state.currentColor}
-    }
-  }
-
   render() {
     return (
-      <div style={this.setBgColor()} className="wrapper">
-        <Quote randQuote={this.state.currentQuote}/>
+      <div style={{backgroundColor: this.state.currentColor}} className="wrapper">
+        <Quote style={{color: this.state.fontColor}} randQuote={this.state.currentQuote}/>
         <Button clickable={this.state.buttonDisabled} changeQuote={() => {
           this.setRandomQuote();
-          this.setRandomColor();
+          this.setRandomColors();
         }}/>
       </div>
     );
