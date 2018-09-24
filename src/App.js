@@ -20,7 +20,8 @@ class App extends Component {
 
   //ARRAY OF COLORS
   colors = {
-    colorsArr: createColorArr()
+    colorsArr: createColorArr(),
+      test: 1
   };
 
   //SET A RANDOM QUOTE AS CURRENT QUOTE
