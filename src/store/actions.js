@@ -1,0 +1,6 @@
+export const FETCH_QUOTES = 'FETCH_QUOTES';
+export const ENABLE_BUTTON = 'ENABLE_BUTTON';
+export const GET_COLORS = 'GET_COLORS';
+export const SET_RAND_QUOTE = 'SET_RAND_QUOTE';
+export const CHANGE_BG_COLOR = 'CHANGE_BG_COLOR';
+export const DEFINE_FONT_COLOR = 'DEFINE_FONT_COLOR';
