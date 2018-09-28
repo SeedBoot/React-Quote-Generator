@@ -21,8 +21,6 @@ class QuotesContainer extends Component {
 
   render() {
 
-    let quotesReady = this.checkIfQuotesReady();
-
     if (this.props.quotesArr.length === 0) {
       return (
         <div className="loader">
@@ -32,7 +30,7 @@ class QuotesContainer extends Component {
     } else {
       return (
         <React.Fragment>
-          {quotesReady ? <QuoteContainer colors={this.props.colorsArr} quotes={this.props.quotesArr}/> : null}
+          {this.checkIfQuotesReady() ? <QuoteContainer colors={this.props.colorsArr} quotes={this.props.quotesArr}/> : null}
         </React.Fragment>
       );
     }

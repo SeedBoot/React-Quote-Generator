@@ -32,7 +32,6 @@ class QuoteContainer extends Component {
       bgColor: currentBgColor
     }, () => {
       let currentFontColor = defineFontColor(this.state.bgColor);
-      console.log(currentFontColor);
       if (currentFontColor === 'light') {
         this.setState({fontColor: '#000'})
       } else {
