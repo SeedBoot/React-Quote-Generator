@@ -1,9 +1,9 @@
 import React, {Component} from 'react';
 
 import QuoteContainer from './QuoteContainer';
+import Loader from '../Components/Loader';
 import {connect} from 'react-redux';
 import * as actions from '../store/actions';
-import ReactLoading from "react-loading";
 
 
 class QuotesContainer extends Component {
@@ -14,23 +14,16 @@ class QuotesContainer extends Component {
     this.props.fillColorArr();
   }
 
-  checkIfQuotesReady = () => {
-    let quotesCheck = this.props.quotesArr.length > 0;
-    return quotesCheck;
-  }
-
   render() {
-
+    //DISPLAY A LOADER WHILE FETCHING QUOTES
     if (this.props.quotesArr.length === 0) {
-      return (
-        <div className="loader">
-          <ReactLoading type={'bars'} color={'#fafafa'} height={'5%'} width={'5%'}/>
-        </div>
-      )
-    } else {
+      return <Loader/>
+    }
+    else {
+    //WHEN QUOTES ARE SET IN THE STORE RETURN THE QUOTE CONTAINER
       return (
         <React.Fragment>
-          {this.checkIfQuotesReady() ? <QuoteContainer colors={this.props.colorsArr} quotes={this.props.quotesArr}/> : null}
+            <QuoteContainer colors={this.props.colorsArr} quotes={this.props.quotesArr}/>
         </React.Fragment>
       );
     }

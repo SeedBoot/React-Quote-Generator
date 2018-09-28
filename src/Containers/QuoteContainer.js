@@ -7,6 +7,7 @@ import {defineFontColor} from '../utils/helpers';
 
 class QuoteContainer extends Component {
 
+  //QUOTE CONTAINER LOCAL STATE
   state = {
     quote: null,
     author: null,
@@ -14,10 +15,12 @@ class QuoteContainer extends Component {
     fontColor: '#fafafa'
   }
 
+  //SET THE INITIAL RANDOM QUOTE
   componentDidMount() {
     this.randomQuoteHandler();
   }
 
+  //RANDOM QUOTE HANDLER METHOD
   randomQuoteHandler = () => {
     let quoteObj = this.props.quotes[Math.floor(Math.random() * 100)];
     this.setState({
@@ -26,6 +29,7 @@ class QuoteContainer extends Component {
     })
   }
 
+  //RANDOM BACKGROUND COLOR AND FONT COLOR HANDLER METHOD
   randomColorHandler = () => {
     let currentBgColor = this.props.colors[Math.floor(Math.random() * 143)];
     this.setState({
