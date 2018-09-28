@@ -1,8 +1,3 @@
-export const getRandomNum = () => {
-  let randNumber = Math.floor(Math.random() * 100);
-  return randNumber;
-}
-
 export const defineFontColor = (color) => {
 
   // Variables for red, green, blue values

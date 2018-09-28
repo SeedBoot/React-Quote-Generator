@@ -2,7 +2,7 @@ import React from 'react';
 
 const Button = (props) => {
   return (
-    <button className="btn" onClick={props.changeQuote} disabled={props.clickable}>CHANGE QUOTE</button>
+    <button className="btn" onClick={props.changeQuote}>CHANGE QUOTE</button>
   );
 }
 
