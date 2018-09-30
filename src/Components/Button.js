@@ -1,9 +1,10 @@
 import React from 'react';
 
-const Button = (props) => {
-  return (
-    <button className="btn" onClick={props.changeQuote} disabled={props.clickable}>CHANGE QUOTE</button>
-  );
-}
-
-export default Button;
+export const Button = ({changeQuote, isDisabled}) =>
+    <button
+      className="btn"
+      onClick={changeQuote}
+      disabled={isDisabled}
+    >
+      CHANGE QUOTE
+    </button>

@@ -1,71 +1,59 @@
 import React, {Component} from 'react';
 import './App.css';
 
-import {getRandomNum} from './utils/helpers';
-import Quote from './Components/Quote';
-import Button from './Components/Button';
-import createColorArr from './utils/colors';
-import {defineFontColor} from './utils/helpers';
+import { 
+  FETCH_QUOTES, SET_RAND_QUOTE,
+  CHANGE_BG_COLOR, DEFINE_FONT_COLOR,
+} from './store/reducer';
+import {connect} from 'react-redux';
+import { Quote } from './Components/Quote';
+import { Button } from './Components/Button';
 
 class App extends Component {
 
-  //APP STATE
-  state = {
-    quotesArr: [],
-    currentColor: '#600707',
-    fontColor: '#fafafa',
-    currentQuote: null,
-    buttonDisabled: true
-  }
-
-  //ARRAY OF COLORS
-  colors = {
-    colorsArr: createColorArr()
-  };
-
-  //SET A RANDOM QUOTE AS CURRENT QUOTE
-  setRandomQuote = () => {
-    let randQuote = this.state.quotesArr[getRandomNum()];
-    this.setState({currentQuote: randQuote})
-  }
-
-  //SET A RANDOM BG COLOR AS CURRENT COLOR AND FONT COLOR BASED ON CURRENT COLOR
-  setRandomColors = () => {
-    let randColor = this.colors.colorsArr[Math.floor(Math.random() * 143)];
-    this.setState({currentColor: randColor}, () => {
-      let fontColor = defineFontColor(this.state.currentColor);
-      if (fontColor === 'light') {
-        this.setState({fontColor: '#000'})
-      } else if (fontColor === 'dark') {
-        this.setState({fontColor: '#fafafa'})
-      }
-    });
-  }
-
-  //FETCH ALL QUOTES
+//FETCH ALL QUOTES
   componentDidMount() {
-    fetch('https://talaikis.com/api/quotes/')
-      .then(response => response.json())
-      .then(quotes => {
-        this.setState({quotesArr: quotes})
-      })
-      .then(() => {
-        this.setRandomQuote();
-        this.setState({buttonDisabled: false})
-      })
+    this.props.fetchQuotes();
   }
 
   render() {
     return (
-      <div style={{backgroundColor: this.state.currentColor}} className="wrapper">
-        <Quote style={{color: this.state.fontColor}} randQuote={this.state.currentQuote}/>
-        <Button clickable={this.state.buttonDisabled} changeQuote={() => {
-          this.setRandomQuote();
-          this.setRandomColors();
+      <div style={{ backgroundColor: this.props.currentBg || '#600707'}} className="wrapper">
+        <Quote fontColor={{color: this.props.fontColor}} randQuote={this.props.currentQuote}/>
+        <Button isDisabled={!this.props.quotesArr.length} changeQuote={() => {
+          this.props.setRandQuote();
+          this.props.setBgcolor();
+          this.props.setFontColor();
         }}/>
       </div>
     );
   }
 }
 
-export default App;
+//MAP STATE TO CURRENT CLASS PROPS
+const mapStateToProps = state => {
+  return {
+    quotesArr: state.quotes,
+    currentBg: state.currentColor,
+    fontColor: state.fontColor,
+    currentQuote: state.currentQuote,
+    btnDis: state.buttonDisabled
+  }
+}
+
+//MAP DISPATCH TO CURRENT CLASS PROPS
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchQuotes: () => {
+      fetch('https://talaikis.com/api/quotes/')
+        .then(response => response.json())
+        .then(quotes => dispatch({type: FETCH_QUOTES, fillArr: quotes}))
+        .then(() => dispatch({type: SET_RAND_QUOTE}))
+    },
+    setRandQuote: () => dispatch({type: SET_RAND_QUOTE}),
+    setBgcolor: () => dispatch({type: CHANGE_BG_COLOR}),
+    setFontColor: () => dispatch({type: DEFINE_FONT_COLOR})
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);
